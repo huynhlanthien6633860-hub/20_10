@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="vi" data-who="cau">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chúc mừng 20/10 – Một món quà dành cho cậu</title>
+<meta name="description" content="Thiệp chúc mừng Ngày Phụ nữ Việt Nam 20/10 tương tác – mở quà, nhận lời chúc và một điều bất ngờ.">
+<meta name="theme-color" content="#0b0610">
+<meta property="og:title" content="Cậu có một món quà đặc biệt 🎁">
+<meta property="og:description" content="Chạm để mở thiệp chúc mừng 20/10.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b0610'/%3E%3Crect x='10' y='20' width='20' height='22' rx='7' fill='%233df2ff'/%3E%3Crect x='34' y='20' width='20' height='22' rx='7' fill='%233df2ff'/%3E%3C/svg%3E">
+<!-- Font ngoài là tuỳ chọn: nếu không tải được, trình duyệt tự dùng font hệ thống (xem biến --f-* trong style.css) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600&family=Courier+Prime:wght@400;700&family=Dancing+Script:wght@600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-screen="intro" data-scene="s0">
+<noscript><p style="color:#fff;text-align:center;padding:40px;font-family:sans-serif">Trang này cần bật JavaScript để mở món quà 🎁</p></noscript>
+
+<div class="app" id="app">
+
+  <!-- Nền gradient theo từng cảnh -->
+  <div class="bg" aria-hidden="true">
+    <i class="bgl" data-bg="s0"></i><i class="bgl" data-bg="s1"></i><i class="bgl" data-bg="s2"></i>
+    <i class="bgl" data-bg="s3"></i><i class="bgl" data-bg="s4"></i><i class="bgl" data-bg="s5"></i>
+    <i class="bgl" data-bg="s6"></i><i class="bgl" data-bg="sc"></i><i class="bgl" data-bg="dawn"></i>
+  </div>
+
+  <div class="bokeh" id="bokeh" aria-hidden="true"></div>
+
+  <!-- Trang trí từng cảnh (được dựng bằng SVG trong script.js) -->
+  <div class="decor" aria-hidden="true">
+    <div class="deco" data-deco="s2"></div>
+    <div class="deco" data-deco="s3"></div>
+    <div class="deco" data-deco="s4"></div>
+    <div class="deco" data-deco="s5"></div>
+    <div class="deco" data-deco="s6"></div>
+  </div>
+
+  <div class="lyrics" id="lyrics" aria-hidden="true"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="vig" aria-hidden="true"></div>
+
+  <!-- Nhân vật "đôi mắt" 3D phát sáng (cấu trúc được dựng bởi buildEyes() trong script.js) -->
+  <div class="eyes sleep" id="eyes" aria-hidden="true"><div class="eyes-in" id="eyesIn"></div></div>
+  <canvas id="fxf" aria-hidden="true"></canvas>
+
+  <main>
+    <!-- 1. Mở đầu -->
+    <section class="screen active" id="intro" aria-label="Món quà">
+      <h1 class="invite">Cậu có một<br><em>món quà đặc biệt</em></h1>
+      <button class="env" id="envBtn" type="button" aria-label="Mở món quà">
+        <span class="env-glow"></span>
+        <span class="env-back"></span>
+        <span class="env-letter"><b>20<small>/</small>10</b><i>✿</i></span>
+        <span class="env-front"></span>
+        <span class="env-flap"></span>
+        <span class="env-seal">♥</span>
+      </button>
+      <button class="btn primary cta" id="openBtn" type="button">Mở món quà</button>
+      <p class="hint">Chạm vào phong bì hoặc nút để mở · bật loa để nghe nhạc 🔈</p>
+    </section>
+
+    <!-- 2. Câu chuyện (cảnh tự chạy, chạm để chuyển nhanh) -->
+    <section class="screen" id="story" aria-label="Lời nhắn mở đầu" inert>
+      <div class="cap cap-top" id="capTop" aria-live="polite"></div>
+      <div class="cap cap-bot" id="capBot"></div>
+      <button class="btn ghost skip" id="skipBtn" type="button">Bỏ qua ›</button>
+    </section>
+
+    <!-- 3. Lời chúc -->
+    <section class="screen" id="card" aria-label="Lời chúc" inert>
+      <article class="card">
+        <p class="kicker">✦ Ngày Phụ nữ Việt Nam ✦</p>
+        <h2 class="title">Chúc mừng ngày 20/10</h2>
+        <p class="to" id="cardTo"></p>
+        <p class="wish" id="cardWish" aria-live="polite"></p>
+        <p class="sign" id="cardSign"></p>
+        <button class="btn primary" id="surpriseBtn" type="button">Một điều bất ngờ nữa 🎁</button>
+      </article>
+    </section>
+
+    <!-- 4. Bất ngờ -->
+    <section class="screen" id="surprise" aria-label="Điều bất ngờ" inert>
+      <p class="sur-title" id="surTitle"></p>
+      <button class="bouquet" id="bouquet" type="button" aria-label="Chạm để thả thêm pháo hoa"></button>
+      <div class="row">
+        <button class="btn ghost" id="againBtn" type="button">Thêm pháo hoa 🎉</button>
+        <button class="btn primary" id="toEndBtn" type="button">Lời chúc cuối ›</button>
+      </div>
+    </section>
+
+    <!-- 5. Kết thúc -->
+    <section class="screen" id="end" aria-label="Kết thúc" inert>
+      <article class="card small">
+        <h2 class="title sm">Gửi trọn yêu thương</h2>
+        <p class="wish" id="endWish"></p>
+        <p class="sign" id="endSign"></p>
+        <div class="row wrap">
+          <button class="btn primary" id="replayBtn" type="button">↺ Phát lại</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>

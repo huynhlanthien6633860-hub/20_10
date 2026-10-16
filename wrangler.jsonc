@@ -1,0 +1,6 @@
+{
+  // Triển khai bằng Cloudflare Workers (static assets): chạy `npx wrangler deploy`
+  "name": "thiep-20-10",
+  "compatibility_date": "2025-01-01",
+  "assets": { "directory": "./" }
+}
